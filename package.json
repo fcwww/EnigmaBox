@@ -39,8 +39,9 @@
     "appId": "com.moria.enigmabox",
     "productName": "EnigmaBox",
     "icon": "build/icon.ico",
+    "artifactName": "EnigmaBox-${version}-Setup.${ext}",
     "directories": {
-      "output": "dist-installers"
+      "output": "release"
     },
     "files": [
       "dist/**/*",

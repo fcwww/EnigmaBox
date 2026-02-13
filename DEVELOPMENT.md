@@ -39,7 +39,7 @@ npm run typecheck
 npm run dist
 ```
 
-输出目录默认在 `dist-installers/`（由 `package.json -> build.directories.output` 配置）。
+输出目录默认在 `release/`（由 `package.json -> build.directories.output` 配置）。
 
 ## 5.1 应用图标（可选）
 
