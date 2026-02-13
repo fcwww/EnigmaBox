@@ -1,22 +1,24 @@
 # EnigmaBox
 
-一个为 Puzzle Hunt 场景定制的轻量级“密码编解码工具箱”，默认面向 **Windows** 开发与打包。
+A lightweight cipher toolbox for Puzzle Hunts. Built and packaged for **Windows-first** workflows.
 
-## 技术栈
+## Tech Stack
 
 - Electron + Vue 3 + Vite + TypeScript
-- Tailwind CSS（深色 + 毛玻璃 + 呼吸灯风格）
-- 全中文 UI
+- Tailwind CSS (dark + glassmorphism + strong interactive feedback)
+- Chinese UI (for now)
 
-## 功能模块（当前版本）
+## Features (Current)
 
-- A1Z26 工具：支持 10 进制、2 进制（5 位分组）、3 进制（3 位分组）、以及“四位康拓展开(排列 1..4) -> A1Z26”（示例：1234=>A，1243=>B，输出 A..X）
-- 凯撒密码：一次性展示 25 种 shift 结果并标注 shift 值
-- 摩斯电码：支持 `.` / `-` 交互输入，支持编码与解码
-- 盲文解码：2x3 点阵交互输入，实时预览并追加输出（基础 a-z）
-- 旗语解码：8 方位圆形按钮，依次选两次，实时预览并追加输出（A-Z）
-- 猪圈密码：九宫格 / X 格图形选择器，点击图形块输出字母（A-Z）
+- A1Z26 tool:
+  - Decimal / 5-bit binary / 3-digit ternary
+  - “Cantor expansion (perm 1..4) -> A1Z26” (e.g. `1234 => A`, `1243 => B`, output range `A..X`)
+- Caesar cipher: shows all 25 shifts with shift labels
+- Morse code: interactive `.` / `-` input, encode + decode
+- Braille decoder: interactive 2x3 dots, live preview, append output (basic a-z)
+- Semaphore (flag) decoder: 8-direction picker (choose two), live preview, append output (A-Z)
+- Pigpen cipher decoder: 3x3 grid + X-grid picker, click glyphs to append letters (A-Z)
 
-## 开发
+## Development
 
-请查看 `DEVELOPMENT.md`（中文）。
+See `DEVELOPMENT.md` (Chinese).
