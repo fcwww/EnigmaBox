@@ -41,6 +41,19 @@ npm run dist
 
 输出目录默认在 `dist-installers/`（由 `package.json -> build.directories.output` 配置）。
 
+## 5.1 应用图标（可选）
+
+把截图/原图放到 `assets/icon-source.png` 后执行：
+
+```bash
+npm run make:icon
+```
+
+会生成：
+
+- `assets/icon.png`（透明背景 PNG）
+- `build/icon.ico`（Windows 打包用 ICO）
+
 ## 6. 项目结构
 
 - `src/main/`：Electron 主进程
@@ -63,4 +76,3 @@ npm run dist
 
 - UI 统一中文展示；输出内容通常为英文字母/数字（Puzzle Hunt 常见）
 - 映射/规则可能存在题目变体：如果你给我一题的截图或规则，我可以把对应模块改成“可配置/多变体”模式
-

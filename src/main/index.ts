@@ -1,4 +1,5 @@
 import { app, BrowserWindow, Menu } from "electron";
+import { existsSync } from "node:fs";
 import path from "node:path";
 
 function resolveRendererUrl(): { devUrl?: string; indexFile: string } {
@@ -8,12 +9,16 @@ function resolveRendererUrl(): { devUrl?: string; indexFile: string } {
 }
 
 function createMainWindow() {
+  const iconPath = app.isPackaged
+    ? undefined
+    : path.join(app.getAppPath(), "assets", "icon.png");
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 980,
     minHeight: 640,
     backgroundColor: "#0b0f17",
+    icon: iconPath && existsSync(iconPath) ? iconPath : undefined,
     webPreferences: {
       preload: path.join(app.getAppPath(), "dist-electron", "preload", "index.js"),
       contextIsolation: true,

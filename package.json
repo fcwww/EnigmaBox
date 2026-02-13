@@ -14,7 +14,8 @@
     "build:electron": "tsc -p tsconfig.node.json",
     "build": "npm run build:renderer && npm run build:electron",
     "dist": "npm run build && electron-builder -w",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "make:icon": "python scripts/make-icons.py assets/icon-source.png"
   },
   "dependencies": {
     "vue": "^3.5.0",
@@ -37,6 +38,7 @@
   "build": {
     "appId": "com.moria.enigmabox",
     "productName": "EnigmaBox",
+    "icon": "build/icon.ico",
     "directories": {
       "output": "dist-installers"
     },
@@ -46,6 +48,7 @@
       "package.json"
     ],
     "win": {
+      "icon": "build/icon.ico",
       "target": [
         "nsis"
       ]
