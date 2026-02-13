@@ -37,7 +37,7 @@ function appendX(pos: PigpenXPos, dotted: boolean) {
             <button
               v-for="pos in grid"
               :key="'n-' + pos"
-              class="eb-glass rounded-xl p-2 border transition will-change-transform active:scale-95"
+              class="eb-glass rounded-xl p-2 border transition will-change-transform active:scale-95 flex items-center justify-center"
               :class="
                 flashKey === `g-${pos}-0`
                   ? '!bg-black !text-white !border-white shadow-[0_0_0_2px_rgba(255,255,255,0.45)] scale-[1.03]'
@@ -53,7 +53,7 @@ function appendX(pos: PigpenXPos, dotted: boolean) {
             <button
               v-for="pos in grid"
               :key="'d-' + pos"
-              class="eb-glass rounded-xl p-2 border transition will-change-transform active:scale-95"
+              class="eb-glass rounded-xl p-2 border transition will-change-transform active:scale-95 flex items-center justify-center"
               :class="
                 flashKey === `g-${pos}-1`
                   ? '!bg-black !text-white !border-white shadow-[0_0_0_2px_rgba(255,255,255,0.45)] scale-[1.03]'
@@ -74,7 +74,7 @@ function appendX(pos: PigpenXPos, dotted: boolean) {
             <button
               v-for="pos in xgrid"
               :key="'xn-' + pos"
-              class="eb-glass rounded-xl p-3 border transition will-change-transform active:scale-95"
+              class="eb-glass rounded-xl p-3 border transition will-change-transform active:scale-95 flex items-center justify-center"
               :class="
                 flashKey === `x-${pos}-0`
                   ? '!bg-black !text-white !border-white shadow-[0_0_0_2px_rgba(255,255,255,0.45)] scale-[1.03]'
@@ -90,7 +90,7 @@ function appendX(pos: PigpenXPos, dotted: boolean) {
             <button
               v-for="pos in xgrid"
               :key="'xd-' + pos"
-              class="eb-glass rounded-xl p-3 border transition will-change-transform active:scale-95"
+              class="eb-glass rounded-xl p-3 border transition will-change-transform active:scale-95 flex items-center justify-center"
               :class="
                 flashKey === `x-${pos}-1`
                   ? '!bg-black !text-white !border-white shadow-[0_0_0_2px_rgba(255,255,255,0.45)] scale-[1.03]'
@@ -123,9 +123,6 @@ function appendX(pos: PigpenXPos, dotted: boolean) {
           <button class="px-3 py-2 rounded-xl eb-glass hover:bg-white/5" @click="output = ''">
             清空
           </button>
-        </div>
-        <div class="text-xs text-white/50">
-          注：不同题目可能采用变体（例如字母分组、点的用法等）。如果你在某道题里遇到不一致，我可以按那道题的规则调整映射/图形。
         </div>
       </div>
     </div>
