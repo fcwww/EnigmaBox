@@ -61,6 +61,64 @@ def _apply_alpha(img: Image.Image, bg_mask: list[list[bool]]) -> Image.Image:
     return out
 
 
+def _remove_white_halo(img: Image.Image) -> Image.Image:
+    """Reduce bright fringe around the extracted silhouette.
+
+    Screenshot extractions often keep a white matte on anti-aliased edges.
+    We only process pixels that touch transparency (outer boundary), so
+    interior highlights stay intact.
+    """
+    w, h = img.size
+    src = img.copy()
+    src_px = src.load()
+    out = img.copy()
+    out_px = out.load()
+
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = src_px[x, y]
+            if a == 0:
+                continue
+
+            # Boundary pixel: at least one transparent neighbor in 8-neighborhood.
+            boundary = False
+            for ny in range(max(0, y - 1), min(h, y + 2)):
+                for nx in range(max(0, x - 1), min(w, x + 2)):
+                    if nx == x and ny == y:
+                        continue
+                    if src_px[nx, ny][3] == 0:
+                        boundary = True
+                        break
+                if boundary:
+                    break
+            if not boundary:
+                continue
+
+            # Fade very light boundary pixels.
+            whiteness = min(r, g, b)
+            if whiteness < 170:
+                continue
+
+            t = (whiteness - 170) / (255 - 170)  # 0..1
+            t = max(0.0, min(1.0, t))
+            new_a = int(a * max(0.0, 1.0 - 1.6 * t))
+
+            if new_a <= 0:
+                out_px[x, y] = (r, g, b, 0)
+                continue
+
+            # De-matte from white using updated alpha.
+            af = new_a / 255.0
+            def unwhite(c: int) -> int:
+                v = (c / 255.0 - (1.0 - af)) / af
+                v = max(0.0, min(1.0, v))
+                return int(round(v * 255))
+
+            out_px[x, y] = (unwhite(r), unwhite(g), unwhite(b), new_a)
+
+    return out
+
+
 def _trim_and_square(img: Image.Image) -> Image.Image:
     # Trim transparent border
     bbox = img.getbbox()
@@ -99,7 +157,8 @@ def main(argv: list[str]) -> int:
     im = Image.open(inp).convert("RGBA")
     mask = _flood_fill_bg_mask(im, tol=tol)
     cut = _apply_alpha(im, mask)
-    squared = _trim_and_square(cut)
+    cleaned = _remove_white_halo(cut)
+    squared = _trim_and_square(cleaned)
 
     # High-res base PNG (keep good quality for downscales)
     base = squared.resize((1024, 1024), Image.LANCZOS)
@@ -117,4 +176,3 @@ def main(argv: list[str]) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv))
-
