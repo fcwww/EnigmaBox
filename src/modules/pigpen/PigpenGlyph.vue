@@ -12,15 +12,15 @@ const props = defineProps<{
 
 function gridLines(pos: PigpenGridPos) {
   const map: Record<PigpenGridPos, Array<"t" | "r" | "b" | "l">> = {
-    tl: ["t", "l"],
-    tm: ["t", "l", "r"],
-    tr: ["t", "r"],
-    ml: ["t", "b", "l"],
+    tl: ["r", "b"],
+    tm: ["l", "r", "b"],
+    tr: ["l", "b"],
+    ml: ["t", "r", "b"],
     mm: ["t", "r", "b", "l"],
-    mr: ["t", "b", "r"],
-    bl: ["b", "l"],
-    bm: ["b", "l", "r"],
-    br: ["b", "r"]
+    mr: ["t", "b", "l"],
+    bl: ["t", "r"],
+    bm: ["t", "l", "r"],
+    br: ["t", "l"]
   };
   return map[pos];
 }
@@ -37,20 +37,20 @@ function gridLines(pos: PigpenGridPos) {
 
     <g v-else-if="props.kind === 'x' && props.xPos" stroke="currentColor" stroke-width="5" stroke-linecap="round">
       <template v-if="props.xPos === 'top'">
-        <line x1="16" y1="46" x2="32" y2="18" />
-        <line x1="48" y1="46" x2="32" y2="18" />
-      </template>
-      <template v-else-if="props.xPos === 'right'">
-        <line x1="18" y1="16" x2="46" y2="32" />
-        <line x1="18" y1="48" x2="46" y2="32" />
-      </template>
-      <template v-else-if="props.xPos === 'bottom'">
         <line x1="16" y1="18" x2="32" y2="46" />
         <line x1="48" y1="18" x2="32" y2="46" />
       </template>
-      <template v-else>
+      <template v-else-if="props.xPos === 'right'">
         <line x1="46" y1="16" x2="18" y2="32" />
         <line x1="46" y1="48" x2="18" y2="32" />
+      </template>
+      <template v-else-if="props.xPos === 'bottom'">
+        <line x1="16" y1="46" x2="32" y2="18" />
+        <line x1="48" y1="46" x2="32" y2="18" />
+      </template>
+      <template v-else>
+        <line x1="18" y1="16" x2="46" y2="32" />
+        <line x1="18" y1="48" x2="46" y2="32" />
       </template>
     </g>
 

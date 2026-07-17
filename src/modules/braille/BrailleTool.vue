@@ -5,6 +5,7 @@ import { dotsToMask, maskToLetter } from "./braille";
 
 const dots = ref<boolean[]>([false, false, false, false, false, false]);
 const output = ref("");
+const dotButtons = [1, 4, 2, 5, 3, 6];
 
 const mask = computed(() => dotsToMask(dots.value));
 const preview = computed(() => maskToLetter(mask.value) ?? "（无匹配）");
@@ -31,17 +32,17 @@ function appendChar() {
         <div class="text-sm text-white/70">2x3 点阵输入</div>
         <div class="mt-3 grid grid-cols-2 gap-2 w-fit">
           <button
-            v-for="i in 6"
-            :key="i"
+            v-for="dot in dotButtons"
+            :key="dot"
             class="w-14 h-14 rounded-2xl eb-glass border transition will-change-transform active:scale-95"
             :class="
-              dots[i - 1]
+              dots[dot - 1]
                 ? '!bg-black !text-white !border-white shadow-[0_0_0_2px_rgba(255,255,255,0.45)] scale-[1.02]'
                 : '!bg-white/90 !text-black !border-white/80 hover:!bg-white'
             "
-            @click="toggle(i - 1)"
+            @click="toggle(dot - 1)"
           >
-            <div class="text-xs" :class="dots[i - 1] ? 'text-white/85' : 'text-black/75'">点{{ i }}</div>
+            <div class="text-xs" :class="dots[dot - 1] ? 'text-white/85' : 'text-black/75'">点{{ dot }}</div>
           </button>
         </div>
 

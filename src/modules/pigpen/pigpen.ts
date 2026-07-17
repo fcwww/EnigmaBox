@@ -29,12 +29,12 @@ export function gridPosToLetter(pos: PigpenGridPos, dotted: boolean): string {
 }
 
 export function xPosToLetter(pos: PigpenXPos, dotted: boolean): string {
-  const base = {
+  const base: Record<PigpenXPos, string> = {
     top: "S",
-    right: "T",
-    bottom: "U",
-    left: "V"
-  } as const;
+    left: "T",
+    right: "U",
+    bottom: "V"
+  };
   const offset = dotted ? 4 : 0;
   const letter = base[pos].charCodeAt(0) + offset;
   return String.fromCharCode(letter);
