@@ -7,6 +7,14 @@ declare global {
       node: string;
       chrome: string;
       electron: string;
+      ai: {
+        getSettings: () => Promise<import("../shared/word-search").LlmSettingsSummary>;
+        saveSettings: (input: import("../shared/word-search").SaveLlmSettingsInput) => Promise<import("../shared/word-search").LlmSettingsSummary>;
+      };
+      wordSearch: {
+        searchNutrimatic: (query: string) => Promise<import("../shared/word-search").NutrimaticSearchResult>;
+        analyzeCandidates: (input: import("../shared/word-search").CandidateAnalysisInput) => Promise<import("../shared/word-search").CandidateAnalysis>;
+      };
     };
   }
 }

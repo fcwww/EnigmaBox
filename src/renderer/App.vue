@@ -5,7 +5,14 @@ import { useRoute } from "vue-router";
 import { cipherProviders } from "@modules/index";
 
 const route = useRoute();
-const active = computed(() => cipherProviders.find((p) => p.route === route.path));
+const active = computed(() => {
+  const tool = cipherProviders.find((p) => p.route === route.path);
+  if (tool) return tool;
+  if (route.path === "/ai-settings") {
+    return { name: "全局 AI 设置", description: "为所有支持 AI 的功能配置共享模型服务。" };
+  }
+  return undefined;
+});
 
 // In Vue templates, globals like `window` are not automatically in-scope.
 // Expose what we need as a setup binding.
@@ -37,6 +44,18 @@ const runtime = computed(() => window.enigmabox);
               <div class="font-medium">{{ p.name }}</div>
             </div>
             <div class="text-xs text-white/55 mt-1 leading-snug">{{ p.description }}</div>
+          </RouterLink>
+        </nav>
+
+        <div class="mt-6 text-xs text-white/50">全局功能</div>
+        <nav class="mt-2 flex flex-col gap-1.5">
+          <RouterLink
+            to="/ai-settings"
+            class="rounded-xl border border-transparent px-3 py-2 text-sm transition hover:border-white/10 hover:bg-white/5"
+            :class="route.path === '/ai-settings' ? 'border-white/20 bg-white/10' : ''"
+          >
+            <div class="font-medium">全局 AI 设置</div>
+            <div class="mt-1 text-xs leading-snug text-white/55">统一配置模型地址、名称与 API Key</div>
           </RouterLink>
         </nav>
 

@@ -60,6 +60,7 @@ npm run make:icon
 - `src/preload/`：预加载脚本（`contextBridge` 暴露最小信息给渲染进程）
 - `src/renderer/`：Vue 渲染进程（UI）
 - `src/modules/`：各类密码模块（每种密码独立文件夹）
+- `src/shared/`：主进程与渲染进程共享的 IPC 数据类型
 
 ## 7. 如何新增一个密码模块（插件式）
 
@@ -76,3 +77,16 @@ npm run make:icon
 
 - UI 统一中文展示；输出内容通常为英文字母/数字（Puzzle Hunt 常见）
 - 映射/规则可能存在题目变体：如果你给我一题的截图或规则，我可以把对应模块改成“可配置/多变体”模式
+
+## 9. 网络功能与密钥边界
+
+Nutrimatic 与 LLM 请求由 `src/main/` 发起，渲染进程通过 `contextBridge` 暴露的最小 API 调用。全局 `ai` API 统一管理地址、模型名称和 API Key，后续模块可以直接共用。这样可以维持 `contextIsolation: true`，也能避免把 API Key 放入页面脚本。
+
+`src/main/word-search.ts` 包含：
+
+- Nutrimatic HTML 候选解析
+- OpenAI Chat Completions 兼容请求
+- 面向 Puzzle Hunt 候选排序的系统提示词
+- API Key 的 Electron `safeStorage` 保存与读取
+
+自定义 LLM 服务需要接受标准的 `POST /chat/completions` 请求，响应包含 `choices[0].message.content`。

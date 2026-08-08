@@ -6,6 +6,7 @@ import { caesarProvider } from "./caesar";
 import { morseProvider } from "./morse";
 import { pigpenProvider } from "./pigpen";
 import { semaphoreProvider } from "./semaphore";
+import { wordSearchProvider } from "./word-search";
 
 export const cipherProviders: CipherProvider[] = [
   a1z26Provider,
@@ -13,6 +14,7 @@ export const cipherProviders: CipherProvider[] = [
   morseProvider,
   brailleProvider,
   semaphoreProvider,
-  pigpenProvider
+  pigpenProvider,
+  wordSearchProvider
 ];
 

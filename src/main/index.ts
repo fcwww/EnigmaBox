@@ -1,6 +1,9 @@
-import { app, BrowserWindow, Menu } from "electron";
+import { app, BrowserWindow, Menu, ipcMain } from "electron";
 import { existsSync } from "node:fs";
 import path from "node:path";
+
+import { analyzeCandidates, getLlmSettingsSummary, saveLlmSettings, searchNutrimatic } from "./word-search";
+import type { CandidateAnalysisInput, SaveLlmSettingsInput } from "../shared/word-search";
 
 function resolveRendererUrl(): { devUrl?: string; indexFile: string } {
   const devUrl = process.env.VITE_DEV_SERVER_URL;
@@ -44,6 +47,10 @@ function createMainWindow() {
 }
 
 app.whenReady().then(() => {
+  ipcMain.handle("word-search:nutrimatic", (_event, query: string) => searchNutrimatic(query));
+  ipcMain.handle("ai:get-settings", () => getLlmSettingsSummary());
+  ipcMain.handle("ai:save-settings", (_event, input: SaveLlmSettingsInput) => saveLlmSettings(input));
+  ipcMain.handle("word-search:analyze", (_event, input: CandidateAnalysisInput) => analyzeCandidates(input));
   createMainWindow();
 });
 
