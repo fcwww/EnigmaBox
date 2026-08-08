@@ -90,3 +90,20 @@ Nutrimatic 与 LLM 请求由 `src/main/` 发起，渲染进程通过 `contextBri
 - API Key 的 Electron `safeStorage` 保存与读取
 
 自定义 LLM 服务需要接受标准的 `POST /chat/completions` 请求，响应包含 `choices[0].message.content`。
+
+## 10. CLI
+
+CLI 入口复用 `src/modules/` 的纯算法和 `src/main/word-search.ts` 的网络/LLM 逻辑，与桌面端共享全局 AI 设置。开发时可以先执行 `npm run typecheck`，再用下面的命令验证：
+
+```bash
+npm run cli -- help
+npm run cli -- a1z26 letters HELLO
+npm run cli -- caesar shift KHOOR --shift -3
+npm run cli -- morse encode "HELLO WORLD"
+npm run cli -- braille --dots 1,2,4
+npm run cli -- semaphore --positions 5,6
+npm run cli -- pigpen grid --position tl
+npm run cli -- nutrimatic "<integral>" --limit 5
+```
+
+完整命令表可通过 `npm run cli -- help` 查看。所有命令支持 `--json`；脚本调用时使用 `npm run --silent cli -- <command> ... --json` 可以获得干净的 JSON 输出。文本型命令接受位置参数或 `--input TEXT`。`rank` 接收候选词位置参数，也支持 `--candidates "word1,word2"`，并读取全局 AI 配置。
